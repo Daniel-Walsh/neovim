@@ -1,3 +1,2 @@
+require("danwalsh.set")
 require("danwalsh.remap")
-print("hello from danwalsh")
-
