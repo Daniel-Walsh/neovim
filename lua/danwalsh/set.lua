@@ -32,3 +32,8 @@ vim.opt.updatetime = 50 -- Set a fast update time
 vim.opt.colorcolumn = "80" -- Mark column 80 to show optimum line length
 
 vim.g.mapleader = " "
+
+vim.opt.splitbelow = true -- Split new horizontal windows below the current one
+vim.opt.splitright = true -- Split new vertical windows to the right of the current one
+
+

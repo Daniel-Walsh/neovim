@@ -12,13 +12,14 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("x", "<leader>p", "\"_dP") -- Greatest remap ever
 
-vim.keymap.set("n", "<leader>y", "\"+y") -- Yank into the system clipboard
-vim.keymap.set("v", "<leader>y", "\"+y") -- Yank into the system clipboard
-vim.keymap.set("n", "<leader>Y", "\"+Y") -- Yank into the system clipboard
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]]) -- Yank to the system clipboard
+vim.keymap.set("n", "<leader>Y", [["+Y]]) -- Yank to the system clipboard
 
 vim.keymap.set("n", "Q", "<nop>") -- Saves you from accidentally closing the window
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- Search and replace
+
+-- vim.keymap.set("n", "<leader><leader>", [[gcc]])
 
 vim.keymap.set("n", "<leader><leader>", function() -- Quickly source the current file with dbl. space
     vim.cmd("so")
@@ -26,7 +27,13 @@ end)
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>")
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux-nvim-sessioniser<CR>")
 
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- Format the current buffer using LSP
 
-
-
+vim.keymap.set("n", "<C-h>", vim.cmd.TmuxNavigateLeft);
+vim.keymap.set("n", "<C-j>", vim.cmd.TmuxNavigateDown);
+vim.keymap.set("n", "<C-k>", vim.cmd.TmuxNavigateUp);
+vim.keymap.set("n", "<C-l>", vim.cmd.TmuxNavigateRight);
+-- vim.keymap.set({"n", "v"}, "<C-.>", "gc")

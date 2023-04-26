@@ -13,15 +13,17 @@ return require('packer').startup(function(use)
     requires = { { 'nvim-lua/plenary.nvim' } }
   }
 
-  use({
-    'folke/tokyonight.nvim',
-    config = function()
-      require("tokyonight").setup({
-        transparent = true
-      })
-      vim.cmd [[colorscheme tokyonight]]
-    end
-  })
+  -- use({
+  --   'folke/tokyonight.nvim',
+  --   config = function()
+  --     require("tokyonight").setup({
+  --       transparent = true
+  --     })
+  --     vim.cmd [[colorscheme tokyonight]]
+  --   end
+  -- })
+
+  use { "catppuccin/nvim", as = "catppuccin" }
 
 
   use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -64,10 +66,28 @@ return require('packer').startup(function(use)
 
   use('lewis6991/gitsigns.nvim')
 
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
-  }
+  -- use {
+  --   'numToStr/Comment.nvim',
+  --   config = function()
+  --     require('Comment').setup()
+  --   end
+  -- }
+
+  use { "akinsho/toggleterm.nvim", tag = '*' }
+  use "terrortylor/nvim-comment"
+
+  use 'preservim/vim-markdown'
+  use 'godlygeek/tabular'
+  use 'epwalsh/obsidian.nvim'
+
+  use('christoomey/vim-tmux-navigator', { lazy = false })
+  -- use {
+  --   'nvim-tree/nvim-tree.lua',
+  --   requires = {
+  --     'nvim-tree/nvim-web-devicons', -- optional
+  --   },
+  --   config = function()
+  --     require("nvim-tree").setup {}
+  --   end
+  -- }
 end)
