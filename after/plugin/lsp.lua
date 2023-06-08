@@ -17,6 +17,11 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<CR>'] = cmp.mapping.confirm({ select = true }),
   ['<C-x>'] = cmp.mapping.complete(),
 })
+cmp.setup({
+  sources = cmp.config.sources({
+    { name = 'neorg' },
+  })
+});
 
 lsp.setup_nvim_cmp({
   mapping = cmp_mappings
