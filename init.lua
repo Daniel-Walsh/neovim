@@ -373,7 +373,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank to the system clipboard
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing the window" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- Search and replace
+-- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- Search and replace
 
 -- vim.keymap.set("n", "<leader><leader>", [[gcc]])
 
