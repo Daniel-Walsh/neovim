@@ -134,7 +134,16 @@ require('lazy').setup({
     -- Theme inspired by Atom
     'folke/tokyonight.nvim',
     priority = 1000,
+    opts = {},
     config = function()
+      require("tokyonight").setup({
+        -- use the night style
+        style = "storm",
+        -- disable italic for functions
+        styles = {
+          functions = {}
+        },
+      })
       vim.cmd.colorscheme 'tokyonight'
     end,
   },
