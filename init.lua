@@ -235,6 +235,9 @@ vim.opt.incsearch = true -- Enable incremental search
 -- Make line numbers default
 vim.wo.number = true
 
+-- Hide the mode in the command bar
+vim.opt.showmode = false
+
 -- vim.opt.list = true
 -- vim.opt.listchars:append "eol:↴"
 
