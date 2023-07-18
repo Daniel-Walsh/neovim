@@ -68,6 +68,15 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  {
+    'f-person/git-blame.nvim',
+    config = function()
+        vim.g.gitblame_delay = 1000
+        vim.g.gitblame_date_format = '%r'
+        vim.g.gitblame_message_template = '     <author> • <date> • <summary>'
+        vim.g.gitblame_message_when_not_committed = '    󱥸 Not committed yet'
+    end,
+  },
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -306,6 +315,10 @@ vim.opt.smartindent = true
 vim.opt.splitbelow = true -- Split new horizontal windows below the current one
 vim.opt.splitright = true -- Split new vertical windows to the right of the current one
 
+-- Treesitter folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldenable = false
 
 -- [[ Basic Keymaps ]]
 
@@ -422,6 +435,7 @@ require('nvim-treesitter.configs').setup {
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
+  ignore_install = { 'netrw', 'fugitive' },
 
   highlight = { enable = true },
   indent = { enable = true },
