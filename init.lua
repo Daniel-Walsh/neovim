@@ -306,6 +306,16 @@ vim.opt.colorcolumn = "80"    -- Mark column 80 to show optimum line length
 vim.opt.nu = true             -- Enable line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
 
+-- Map <leader>ln to toggle_hybrid_line_numbers function
+vim.keymap.set('n', '<leader>ln', function()
+    local is_hybrid = vim.wo.relativenumber
+    if is_hybrid then
+        vim.wo.relativenumber = false
+    else
+        vim.wo.relativenumber = true
+    end
+end)
+
 vim.opt.tabstop = 2           -- Set my tabstop width
 vim.opt.softtabstop = 2       -- Set my soft tabstop width
 vim.opt.shiftwidth = 2        -- Set my shift width
