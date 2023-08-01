@@ -221,6 +221,64 @@ require('lazy').setup({
 
   'nvim-tree/nvim-web-devicons',
 
+  -- Flash.nvim
+  -- {
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   ---@type Flash.Config
+  --   opts = {},
+  --   -- stylua: ignore
+  --   keys = {
+  --     {
+  --       "s",
+  --       mode = { "n", "x", "o" },
+  --       function()
+  --         require("flash").jump({
+  --           search = {
+  --             mode = function(str)
+  --               return "\\<" .. str
+  --             end,
+  --           },
+  --         })
+  --       end,
+  --       desc = "Flash"
+  --     },
+  --     {
+  --       "S",
+  --       mode = { "n", "o", "x" },
+  --       function()
+  --         require("flash").treesitter()
+  --       end,
+  --       desc = "Flash Treesitter"
+  --     },
+  --     {
+  --       "r",
+  --       mode = "o",
+  --       function()
+  --         require("flash").remote()
+  --       end,
+  --       desc = "Remote Flash"
+  --     },
+  --     {
+  --       "R",
+  --       mode = { "o", "x" },
+  --       function()
+  --         require("flash").treesitter_search()
+  --       end,
+  --       desc =
+  --       "Treesitter Search"
+  --     },
+  --     {
+  --       "<c-s>",
+  --       mode = { "c" },
+  --       function()
+  --         require("flash").toggle()
+  --       end,
+  --       desc =
+  --       "Toggle Flash Search"
+  --     },
+  --   },
+  -- },
   -- {
   --   'christoomey/vim-tmux-navigator',
   --   lazy = false,
@@ -308,18 +366,18 @@ vim.opt.relativenumber = true -- Enable relative line numbers
 
 -- Map <leader>ln to toggle_hybrid_line_numbers function
 vim.keymap.set('n', '<leader>ln', function()
-    local is_hybrid = vim.wo.relativenumber
-    if is_hybrid then
-        vim.wo.relativenumber = false
-    else
-        vim.wo.relativenumber = true
-    end
+  local is_hybrid = vim.wo.relativenumber
+  if is_hybrid then
+    vim.wo.relativenumber = false
+  else
+    vim.wo.relativenumber = true
+  end
 end)
 
-vim.opt.tabstop = 2           -- Set my tabstop width
-vim.opt.softtabstop = 2       -- Set my soft tabstop width
-vim.opt.shiftwidth = 2        -- Set my shift width
-vim.opt.expandtab = true      -- Set expand tab to true
+vim.opt.tabstop = 2      -- Set my tabstop width
+vim.opt.softtabstop = 2  -- Set my soft tabstop width
+vim.opt.shiftwidth = 2   -- Set my shift width
+vim.opt.expandtab = true -- Set expand tab to true
 
 vim.opt.smartindent = true
 
@@ -404,8 +462,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- vim.keymap.set("x", "<leader>p", "\"_dP", { desc = "Greatest remap ever" })
 
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to the system clipboard" })
-vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank to the system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "[Y]ank to the system clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "[Y]ank to the system clipboard" })
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing the window" })
 
@@ -456,7 +514,7 @@ require('nvim-treesitter.configs').setup {
       init_selection = '<Enter>',
       node_incremental = '<Enter>',
       scope_incremental = '<c-s>',
-      node_decremental = '<M-space>',
+      node_decremental = '<BS>',
     },
   },
   textobjects = {
