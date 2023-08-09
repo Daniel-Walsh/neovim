@@ -221,6 +221,35 @@ require('lazy').setup({
 
   'nvim-tree/nvim-web-devicons',
 
+  {
+    "epwalsh/obsidian.nvim",
+    lazy = false,
+    event = {
+      "BufReadPre /Users/danwalsh/Obsidian/**.md" },
+    -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
+    -- event = { "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md" },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    opts = {
+      dir = "/Users/danwalsh/Obsidian", -- no need to call 'vim.fn.expand' here
+
+      -- see below for full list of options 👇
+      daily_notes = {
+        -- Optional, if you keep daily notes in a separate directory.
+        folder = "Notes/Daily",
+        -- Optional, if you want to change the date format for daily notes.
+        -- date_format = "%Y/%m/%Y-%m-%d"
+        date_format = "%Y-%m-%d"
+      },
+      mappings = {
+        -- ["gf"] = require("obsidian.mapping").gf_passthrough(),
+      },
+    },
+  },
   -- Flash.nvim
   -- {
   --   "folke/flash.nvim",
@@ -446,7 +475,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
--- My remaps
+-- My keymaps
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader><Esc>", vim.cmd.Ex, { desc = "Hide buffer and return to Netrw Explorer" })
@@ -495,6 +524,19 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Switch focus to the split buffe
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = "Toggle [U]ndotree", noremap = true })
 
+-- Obsidian
+vim.keymap.set("n", "gf", function()
+  if require("obsidian").util.cursor_on_markdown_link() then
+    return "<cmd>ObsidianFollowLink<CR>"
+  else
+    return "gf"
+  end
+end, { noremap = false, expr = true })
+
+-- Tabs
+vim.keymap.set("n", "<C-t>", vim.cmd.tabnew, { desc = "Opens a new [T]ab" })
+vim.keymap.set("n", "<C-n>", vim.cmd.tabnext, { desc = "Navigates to the next tab" })
+vim.keymap.set("n", "<C-p>", vim.cmd.tabprevious, { desc = "Navigates to the previous tab" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -708,3 +750,135 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+
+
+
+local lspconfig = require 'lspconfig'
+lspconfig.volar.setup {}
+--
+--
+--
+-- -- Configure Volar (vue) lsp
+-- local lspconfig = require 'lspconfig'
+-- local lspconfig_configs = require 'lspconfig.configs'
+-- local lspconfig_util = require 'lspconfig.util'
+--
+-- local function on_new_config(new_config, new_root_dir)
+--   local function get_typescript_server_path(root_dir)
+--     local project_root = lspconfig_util.find_node_modules_ancestor(root_dir)
+--     return project_root and
+--         (lspconfig_util.path.join(project_root, 'node_modules', 'typescript', 'lib', 'tsserverlibrary.js'))
+--         or ''
+--   end
+--
+--   if
+--       new_config.init_options
+--       and new_config.init_options.typescript
+--       and new_config.init_options.typescript.tsdk == ''
+--   then
+--     new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+--   end
+-- end
+--
+-- local volar_cmd = { 'vue-language-server', '--stdio' }
+-- local volar_root_dir = lspconfig_util.root_pattern 'package.json'
+--
+-- lspconfig_configs.volar_api = {
+--   default_config = {
+--     cmd = volar_cmd,
+--     root_dir = volar_root_dir,
+--     on_new_config = on_new_config,
+--     filetypes = { 'vue' },
+--     -- If you want to use Volar's Take Over Mode (if you know, you know)
+--     --filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+--     init_options = {
+--       typescript = {
+--         -- tsdk = ''
+--         tsdk = '/Users/danwalsh/.nvm/versions/node/v20.4.0/lib/node_modules/typescript/lib'
+--         -- tsdk = "/Users/danwalsh/.nvm/versions/node/v$(node -v | sed 's/v//')/lib/node_modules/typescript/lib"
+--       },
+--       languageFeatures = {
+--         implementation = true, -- new in @volar/vue-language-server v0.33
+--         references = true,
+--         definition = true,
+--         typeDefinition = true,
+--         callHierarchy = true,
+--         hover = true,
+--         rename = true,
+--         renameFileRefactoring = true,
+--         signatureHelp = true,
+--         codeAction = true,
+--         workspaceSymbol = true,
+--         completion = {
+--           defaultTagNameCase = 'both',
+--           defaultAttrNameCase = 'kebabCase',
+--           getDocumentNameCasesRequest = false,
+--           getDocumentSelectionRequest = false,
+--         },
+--       }
+--     },
+--   }
+-- }
+-- lspconfig.volar_api.setup {}
+--
+-- lspconfig_configs.volar_doc = {
+--   default_config = {
+--     cmd = volar_cmd,
+--     root_dir = volar_root_dir,
+--     on_new_config = on_new_config,
+--
+--     filetypes = { 'vue' },
+--     -- If you want to use Volar's Take Over Mode (if you know, you know):
+--     --filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+--     init_options = {
+--       typescript = {
+--         -- tsdk = ''
+--         -- tsdk = "/Users/danwalsh/.nvm/versions/node/v$(node -v | sed 's/v//')/lib/node_modules/typescript/lib"
+--         tsdk = '/Users/danwalsh/.nvm/versions/node/v20.4.0/lib/node_modules/typescript/lib'
+--       },
+--       languageFeatures = {
+--         implementation = true, -- new in @volar/vue-language-server v0.33
+--         documentHighlight = true,
+--         documentLink = true,
+--         codeLens = { showReferencesNotification = true },
+--         -- not supported - https://github.com/neovim/neovim/pull/15723
+--         semanticTokens = false,
+--         diagnostics = true,
+--         schemaRequestService = true,
+--       }
+--     },
+--   }
+-- }
+-- lspconfig.volar_doc.setup {}
+--
+-- lspconfig_configs.volar_html = {
+--   default_config = {
+--     cmd = volar_cmd,
+--     root_dir = volar_root_dir,
+--     on_new_config = on_new_config,
+--
+--     filetypes = { 'vue' },
+--     -- If you want to use Volar's Take Over Mode (if you know, you know), intentionally no 'json':
+--     --filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+--     init_options = {
+--       typescript = {
+--         -- tsdk = ''
+--         -- tsdk = "/Users/danwalsh/.nvm/versions/node/v$(node -v | sed 's/v//')/lib/node_modules/typescript/lib"
+--         tsdk = '/Users/danwalsh/.nvm/versions/node/v20.4.0/lib/node_modules/typescript/lib'
+--       },
+--       documentFeatures = {
+--         selectionRange = true,
+--         foldingRange = true,
+--         linkedEditingRange = true,
+--         documentSymbol = true,
+--         -- not supported - https://github.com/neovim/neovim/pull/13654
+--         documentColor = false,
+--         documentFormatting = {
+--           defaultPrintWidth = 100,
+--         },
+--       }
+--     },
+--   }
+-- }
+-- lspconfig.volar_html.setup {}
