@@ -250,6 +250,31 @@ require('lazy').setup({
       },
     },
   },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+
+  {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup()
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", 'gomod' },
+    build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+  },
   -- Flash.nvim
   -- {
   --   "folke/flash.nvim",
@@ -428,6 +453,24 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+
+-- Harpoon remaps
+require('harpoon').setup()
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
+vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+vim.keymap.set("n", "<C-n>", ui.nav_next)
+vim.keymap.set("n", "<C-p>", ui.nav_prev)
+
+-- vim.keymap.set("n", "<C-1>", function() ui.nav_file(1) end)
+-- vim.keymap.set("n", "<C-2>", function() ui.nav_file(2) end)
+-- vim.keymap.set("n", "<C-3>", function() ui.nav_file(3) end)
+-- vim.keymap.set("n", "<C-4>", function() ui.nav_file(4) end)
+-- end Harpoon
+
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -445,9 +488,12 @@ local actions = require("telescope.actions")
 require('telescope').setup {
   defaults = {
     mappings = {
+      n = {
+        ['<C-d>'] = require('telescope.actions').delete_buffer
+      },
       i = {
         ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ['<C-d>'] = require('telescope.actions').delete_buffer,
         ["<esc>"] = actions.close -- Prevents Telescope from entering a normal-like mode when hitting escape
       },
     },
@@ -475,7 +521,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
--- My keymaps
+-- My remaps
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader><Esc>", vim.cmd.Ex, { desc = "Hide buffer and return to Netrw Explorer" })
@@ -489,12 +535,16 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scrolls up a half-page, but ke
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+
 -- vim.keymap.set("x", "<leader>p", "\"_dP", { desc = "Greatest remap ever" })
 
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "[Y]ank to the system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "[Y]ank to the system clipboard" })
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing the window" })
+
+vim.keymap.set("n", "[c", vim.cmd.cp, { desc = "Go to the previous Qui[c]kfix error", silent = true })
+vim.keymap.set("n", "]c", vim.cmd.cn, { desc = "Go to the next Qui[c]kfix error", silent = true })
 
 -- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- Search and replace
 
@@ -506,7 +556,8 @@ vim.keymap.set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing 
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>")
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.dotfiles/bin/.local/scripts/tmux-sessioniser<CR>")
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux-nvim-sessioniser<CR>")
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format the current buffer using LSP" })
@@ -533,10 +584,19 @@ vim.keymap.set("n", "gf", function()
   end
 end, { noremap = false, expr = true })
 
--- Tabs
-vim.keymap.set("n", "<C-t>", vim.cmd.tabnew, { desc = "Opens a new [T]ab" })
-vim.keymap.set("n", "<C-n>", vim.cmd.tabnext, { desc = "Navigates to the next tab" })
-vim.keymap.set("n", "<C-p>", vim.cmd.tabprevious, { desc = "Navigates to the previous tab" })
+-- Buffers
+-- vim.keymap.set("n", "<C-w>", vim.cmd.bd, { desc = "Closes the current buffer" })
+vim.keymap.set("n", "<leader>w", ":bp|bd #<CR>", { desc = "Closes the current buffer" })
+-- vim.keymap.set("n", "<C-n>", vim.cmd.bn, { desc = "Navigates to the next buffer" })
+-- vim.keymap.set("n", "<C-p>", vim.cmd.bp, { desc = "Navigates to the previous buffer" })
+
+-- Trouble
+vim.keymap.set("n", "<leader>xx", function() require("trouble").open() end)
+vim.keymap.set("n", "<leader>xw", function() require("trouble").open("workspace_diagnostics") end)
+vim.keymap.set("n", "<leader>xd", function() require("trouble").open("document_diagnostics") end)
+vim.keymap.set("n", "<leader>xq", function() require("trouble").open("quickfix") end)
+vim.keymap.set("n", "<leader>xl", function() require("trouble").open("loclist") end)
+vim.keymap.set("n", "gR", function() require("trouble").open("lsp_references") end)
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -593,15 +653,15 @@ require('nvim-treesitter.configs').setup {
         ['[]'] = '@class.outer',
       },
     },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
-      },
-    },
+    -- swap = {
+    --   enable = true,
+    --   swap_next = {
+    --     ['<leader>a'] = '@parameter.inner',
+    --   },
+    --   swap_previous = {
+    --     ['<leader>A'] = '@parameter.inner',
+    --   },
+    -- },
   },
 }
 
@@ -882,3 +942,21 @@ lspconfig.volar.setup {}
 --   }
 -- }
 -- lspconfig.volar_html.setup {}
+
+
+
+
+-- My global functions
+
+-- Eslint a whole project
+function LintProject()
+  -- Set the makeprg option to the specified command
+  vim.api.nvim_command("set makeprg=eslint")
+
+  -- Run :make command
+  vim.api.nvim_command("make")
+
+  -- Call :cope to display the output in the quick fix list
+  vim.api.nvim_command("cope")
+end
+
