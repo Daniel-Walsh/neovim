@@ -556,8 +556,8 @@ vim.keymap.set("n", "]c", vim.cmd.cn, { desc = "Go to the next Qui[c]kfix error"
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
--- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.dotfiles/bin/.local/scripts/tmux-sessioniser<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>")
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.dotfiles/bin/.local/scripts/tmux-sessioniser<CR>")
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux-nvim-sessioniser<CR>")
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format the current buffer using LSP" })
