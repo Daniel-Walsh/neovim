@@ -9,7 +9,7 @@ return {
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { "j-hui/fidget.nvim", opts = {} },
+      { "j-hui/fidget.nvim",       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
@@ -74,7 +74,14 @@ return {
         -- pyright = {},
         -- rust_analyzer = {},
         tsserver = {},
-        -- tailwindcss ={},
+        cssls = {
+          css = {
+            lint = {
+              unknownAtRules = "ignore"
+            }
+          }
+        },
+        tailwindcss = {},
         eslint = {},
         -- prettier = {},
         lua_ls = {
@@ -113,6 +120,9 @@ return {
     -- Autocompletion
     "hrsh7th/nvim-cmp",
     dependencies = {
+      -- TailwindCSS colourizer
+      "roobert/tailwindcss-colorizer-cmp.nvim",
+
       -- Snippet Engine & its associated nvim-cmp source
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
@@ -122,6 +132,9 @@ return {
 
       -- Adds a number of user-friendly snippets
       "rafamadriz/friendly-snippets",
+
+      --Adds devicons and formatting controls to nvim-cmp
+      "onsails/lspkind.nvim",
     },
     config = function()
       -- [[ Configure nvim-cmp ]]
@@ -131,8 +144,83 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
       luasnip.config.setup({})
 
+      local lspkind = require('lspkind')
+
+      local border = {
+        { "╭", "CmpBorder" },
+        { "─", "CmpBorder" },
+        { "╮", "CmpBorder" },
+        { "│", "CmpBorder" },
+        { "╯", "CmpBorder" },
+        { "─", "CmpBorder" },
+        { "╰", "CmpBorder" },
+        { "│", "CmpBorder" },
+      }
+
       ---@diagnostic disable-next-line: missing-fields
       cmp.setup({
+        window = {
+          documentation = {
+            border = border
+          },
+          completion = {
+            border = border
+          },
+        },
+        formatting = {
+          expandable_indicator = true,
+          fields = { "abbr", "kind", "menu" },
+          format = function(entry, item)
+            require("lspkind").cmp_format({
+              mode = "symbol_text",
+              -- preset = 'codicons', -- enable this for vs code icons
+              menu = {
+                buffer = "[BUF]",
+                nvim_lsp = "[LSP]",
+                luasnip = "[SNIP]",
+                path = "[PATH]",
+              },
+            })(entry, item)
+            return require("tailwindcss-colorizer-cmp").formatter(entry, item)
+          end,
+          -- format = function(entry, vim_item)
+          --   local kind = require("lspkind").cmp_format({
+          --     mode = "symbol_text",
+          --     maxwidth = 50,
+          --     menu = ({
+          --       buffer = "[Buffer]",
+          --       nvim_lsp = "[LSP]",
+          --       luasnip = "[LuaSnip]",
+          --       nvim_lua = "[Lua]",
+          --       latex_symbols = "[Latex]",
+          --     }),
+          --   })(entry, vim_item)
+          --   return kind
+          --   -- local strings = vim.split(kind.kind, "%s", { trimempty = true })
+          --   -- kind.kind = " " .. (strings[1] or "") .. " "
+          --   -- kind.menu = "    (" .. (strings[2] or "") .. ")"
+          --   -- return kind
+          -- end,
+          -- format = lspkind.cmp_format({
+          --   mode = 'symbol_text',  -- show only symbol annotations
+          --   maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          --   preset = 'codicons',
+          --   ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          --   menu = ({
+          --     buffer = "[Buffer]",
+          --     nvim_lsp = "[LSP]",
+          --     luasnip = "[LuaSnip]",
+          --     nvim_lua = "[Lua]",
+          --     latex_symbols = "[Latex]",
+          --   }),
+          --   -- The function below will be called before any actual modifications from lspkind
+          --   -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+          --   before = function(entry, vim_item)
+          --     -- ...
+          --     return vim_item
+          --   end
+          -- })
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -175,4 +263,3 @@ return {
     end
   },
 }
-

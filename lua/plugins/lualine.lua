@@ -73,7 +73,7 @@ return {
                 end
                 return msg
               end,
-              icon = "lsp://",
+              icon = "󰾺",
               separator = { left = "" },
             },
             -- 'progress'
