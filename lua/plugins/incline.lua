@@ -40,7 +40,8 @@ return {
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
           local ft_icon, ft_color = require("nvim-web-devicons").get_icon_color(filename)
           local modified = vim.api.nvim_buf_get_option(props.buf, "modified") and "bold,italic" or "bold"
-          local toykocolours = require("tokyonight.colors").setup({ style = "storm" })
+          -- local toykocolours = require("tokyonight.colors").setup({ style = "storm" })
+          local mocha = require("catppuccin.palettes").get_palette "mocha"
 
           local buffer = {
             { get_diagnostic_label(props) },
@@ -48,8 +49,8 @@ return {
             { ft_icon,                    guifg = ft_color },
             { " " },
             { filename,                   gui = modified },
-            { "  ", guifg = toykocolours.yellow },
-            { props.buf, guifg = toykocolours.yellow }
+            { "  ", guifg = mocha.yellow },
+            { props.buf, guifg = mocha.yellow }
           }
           return buffer
         end,

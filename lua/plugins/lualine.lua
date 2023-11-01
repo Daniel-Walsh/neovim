@@ -6,13 +6,16 @@ return {
     -- See `:help lualine.txt`
     config = function()
       local toykocolours = require("tokyonight.colors").setup({ style = "storm" })
+      local mocha = require("catppuccin.palettes").get_palette "mocha"
       require("lualine").setup({
         options = {
           icons_enabled = true,
           -- theme = 'onedark',
-          theme = "tokyonight",
+          -- theme = "tokyonight",
+          theme = "catppuccin-mocha",
           component_separators = "|",
-          section_separators = "",
+          -- section_separators = "",
+          section_separators = "",
         },
         sections = {
           lualine_a = { "mode" },
@@ -26,9 +29,12 @@ return {
               -- colored = true, -- Displays a colored diff status if set to true
               diff_color = {
                 --   -- Same color values as the general color option can be used here.
-                added = { fg = toykocolours.green2 }, -- Changes the diff's added color
-                modified = { fg = toykocolours.yellow }, -- Changes the diff's modified color
-                removed = { fg = toykocolours.red }, -- changes the diff's removed color you
+                -- added = { fg = toykocolours.green2 }, -- Changes the diff's added color
+                -- modified = { fg = toykocolours.yellow }, -- Changes the diff's modified color
+                -- removed = { fg = toykocolours.red }, -- changes the diff's removed color you
+                added = { fg = mocha.green }, -- Changes the diff's added color
+                modified = { fg = mocha.yellow }, -- Changes the diff's modified color
+                removed = { fg = mocha.red }, -- changes the diff's removed color you
               },
               symbols = { added = " ", modified = " ", removed = " " },
               -- source = nil,                                             -- A function that works as a data source for diff.
@@ -53,7 +59,7 @@ return {
             {
               -- Lsp server name .
               function()
-                local msg = "No Active Lsp"
+                local msg = "No attached LSPs"
                 local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
                 local clients = vim.lsp.get_active_clients()
                 if next(clients) == nil then
@@ -74,14 +80,16 @@ return {
                 return msg
               end,
               icon = "󰾺",
-              separator = { left = "" },
+              -- separator = { left = "" },
+              separator = { left = "" },
             },
             -- 'progress'
           },
           lualine_z = {
             {
               "location",
-              separator = { left = "" },
+              -- separator = { left = "" },
+              separator = { left = "" },
             },
           },
           -- lualine_a = { 'mode' },
