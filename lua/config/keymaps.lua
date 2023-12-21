@@ -35,8 +35,9 @@ set("n", "N", "Nzzzv", { desc = "Scroll to the previous search term, but keep th
 set({ "n", "v" }, "<leader>y", [["+y]], { desc = "[Y]ank to the system clipboard" })
 set("n", "<leader>Y", [["+Y]], { desc = "[Y]ank to the system clipboard" })
 
-set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing the window" })
 -- Macros
+set("n", "Q", "@qj", { desc = "Executes the macro stored in the 'q' register and jumps down to the next line" })
+set("x", "Q", ":norm @q<CR>", { desc = "Executes the macro stored in the 'q' register for every line in visual mode" })
 
 set("n", "[c", vim.cmd.cp, { desc = "Go to the previous Qui[c]kfix error", silent = true })
 set("n", "]c", vim.cmd.cn, { desc = "Go to the next Qui[c]kfix error", silent = true })
