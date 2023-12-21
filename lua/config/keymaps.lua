@@ -24,16 +24,19 @@ set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves highlighted lines up" })
 
 set("n", "J", "mzJ`z", { desc = "Appends the line below to the current line, but keeps the cursor in place" })
 
+-- Scrolling
 set("n", "<C-d>", "<C-d>zz", { desc = "Scrolls down a half-page, but keeps the cursor vertically centered" })
 set("n", "<C-u>", "<C-u>zz", { desc = "Scrolls up a half-page, but keeps the cursor vertically centered" })
 
-set("n", "n", "nzzzv", { desc = "Scroll to the next term, but keep the cursor vertically centered." })
-set("n", "N", "Nzzzv", { desc = "Scroll to the previous term, but keep the cursor vertically centered." })
+set("n", "n", "nzzzv", { desc = "Scroll to the next search term, but keep the cursor vertically centered." })
+set("n", "N", "Nzzzv", { desc = "Scroll to the previous search term, but keep the cursor vertically centered." })
 
+-- Clipboard
 set({ "n", "v" }, "<leader>y", [["+y]], { desc = "[Y]ank to the system clipboard" })
 set("n", "<leader>Y", [["+Y]], { desc = "[Y]ank to the system clipboard" })
 
 set("n", "Q", "<nop>", { desc = "Saves you from accidentally closing the window" })
+-- Macros
 
 set("n", "[c", vim.cmd.cp, { desc = "Go to the previous Qui[c]kfix error", silent = true })
 set("n", "]c", vim.cmd.cn, { desc = "Go to the next Qui[c]kfix error", silent = true })
