@@ -10,7 +10,7 @@ g.maplocalleader = " "
 
 -- Map <leader>ln to toggle_hybrid_line_numbers function
 set("n", "<leader>ln", function()
-  w.relativenumber = not w.relativenumber
+	w.relativenumber = not w.relativenumber
 end, { desc = "Toggle relative [l]ine [n]umbers" })
 
 -- Remap for dealing with word wrap
@@ -39,13 +39,44 @@ set("n", "<leader>Y", [["+Y]], { desc = "[Y]ank to the system clipboard" })
 set("n", "Q", "@qj", { desc = "Executes the macro stored in the 'q' register and jumps down to the next line" })
 set("x", "Q", ":norm @q<CR>", { desc = "Executes the macro stored in the 'q' register for every line in visual mode" })
 
-set("n", "[c", vim.cmd.cp, { desc = "Go to the previous Qui[c]kfix error", silent = true })
-set("n", "]c", vim.cmd.cn, { desc = "Go to the next Qui[c]kfix error", silent = true })
+set("n", "[c", function()
+	local qflist = vim.fn.getqflist()
+	local qflen = #qflist
+	if qflen == 0 then
+		print("Your quickfix list is empty!")
+	else
+		local success, _ = pcall(vim.cmd.cprevious)
+		if success then
+			print(" ")
+		else
+			print("You've reached the start of the quickfix list.")
+		end
+	end
+end, { desc = "Go to the previous Qui[c]kfix error", silent = true })
+
+set("n", "]c", function()
+	local qflist = vim.fn.getqflist()
+	local qflen = #qflist
+	if qflen == 0 then
+		print("Your quickfix list is empty!")
+	else
+		local success, _ = pcall(vim.cmd.cnext)
+		if success then
+			print(" ")
+		else
+			print("You've reached the end of the quickfix list.")
+		end
+	end
+end, { desc = "Go to the next Qui[c]kfix error", silent = true })
 
 set("t", "<Esc>", [[<C-\><C-n>]], { desc = "[Esc]apes from terminal mode" })
 
-set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessioniser<CR>",
-  { desc = "[F]ind and open another project folder in Neovim" })
+set(
+	"n",
+	"<C-f>",
+	"<cmd>silent !tmux neww tmux-sessioniser<CR>",
+	{ desc = "[F]ind and open another project folder in Neovim" }
+)
 
 set("n", "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat the current buffer using LSP" })
 
