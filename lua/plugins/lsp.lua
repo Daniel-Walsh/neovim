@@ -18,15 +18,33 @@ return {
 			},
 
 			-- Additional lua configuration, makes nvim stuff amazing!
-			"folke/neodev.nvim",
+			{
+				"folke/lazydev.nvim",
+				ft = "lua", -- only load on lua files
+				opts = {
+					library = {
+						-- See the configuration section for more details
+						-- Load luvit types when the `vim.uv` word is found
+						{ path = "luvit-meta/library", words = { "vim%.uv" } },
+					},
+				},
+			},
+			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+			{ -- optional completion source for require statements and module annotations
+				"hrsh7th/nvim-cmp",
+				opts = function(_, opts)
+					opts.sources = opts.sources or {}
+					table.insert(opts.sources, {
+						name = "lazydev",
+						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+					})
+				end,
+			},
 		},
 		config = function()
-			-- Setup neovim lua configuration
-			require("neodev").setup()
-
 			-- [[ Configure LSP ]]
 			--  This function gets run when an LSP connects to a particular buffer.
-			local on_attach = function(_, bufnr)
+			local on_attach = function(client, bufnr)
 				-- NOTE: Remember that lua is a real programming language, and as such it is possible
 				-- to define small helper and utility functions so you don't have to repeat yourself
 				-- many times.
@@ -63,6 +81,16 @@ return {
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 				end, "[W]orkspace [L]ist Folders")
 
+				if client.server_capabilities.inlayHintProvider then
+					vim.lsp.inlay_hint.enable(true)
+				end
+				-- if client.server_capabilities.inlayHintProvider then
+				-- 	vim.g.inlay_hints_visible = true
+				-- 	vim.lsp.inlay_hint(bufnr, true)
+				-- else
+				-- 	print("no inlay hints available")
+				-- end
+
 				-- Create a command `:Format` local to the LSP buffer
 				vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
 					vim.lsp.buf.format()
@@ -76,10 +104,56 @@ return {
 			--  the `settings` field of the server config. You must look up that documentation yourself.
 			local servers = {
 				-- clangd = {},
-				gopls = {},
+				gopls = {
+					settings = {
+						gopls = {
+							["ui.inlayhint.hints"] = {
+								assignVariableTypes = true,
+								compositeLiteralFields = true,
+								compositeLiteralTypes = true,
+								functionTypeParameters = true,
+								rangeVariableTypes = true,
+								constantValues = true,
+								parameterNames = true,
+							},
+						},
+					},
+				},
 				-- pyright = {},
 				-- rust_analyzer = {},
-				tsserver = {},
+				volar = {
+					inlayHints = {
+						["vue.inlayHints.missingProps"] = true,
+						["vue.inlayHints.inlineHandlerLeading"] = true,
+						["vue.inlayHints.optionsWrapper"] = true,
+						["vue.inlayHints.vBindShorthand"] = true,
+					},
+					filetypes = { "vue", "typescript", "javascript" },
+				},
+				-- tsserver = {
+				-- 	javascript = {
+				-- 		inlayHints = {
+				-- 			includeInlayParameterNameHints = "all",
+				-- 			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+				-- 			includeInlayFunctionParameterTypeHints = true,
+				-- 			includeInlayVariableTypeHints = true,
+				-- 			includeInlayPropertyDeclarationTypeHints = true,
+				-- 			includeInlayFunctionLikeReturnTypeHints = true,
+				-- 			includeInlayEnumMemberValueHints = true,
+				-- 		},
+				-- 	},
+				-- 	typescript = {
+				-- 		inlayHints = {
+				-- 			includeInlayParameterNameHints = "all",
+				-- 			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+				-- 			includeInlayFunctionParameterTypeHints = true,
+				-- 			includeInlayVariableTypeHints = true,
+				-- 			includeInlayPropertyDeclarationTypeHints = true,
+				-- 			includeInlayFunctionLikeReturnTypeHints = true,
+				-- 			includeInlayEnumMemberValueHints = true,
+				-- 		},
+				-- 	},
+				-- },
 				cssls = {
 					css = {
 						lint = {
@@ -97,6 +171,7 @@ return {
 					Lua = {
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false },
+						hint = { enable = true },
 					},
 				},
 			}

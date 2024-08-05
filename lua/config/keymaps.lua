@@ -80,7 +80,12 @@ set(
 
 set("n", "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat the current buffer using LSP" })
 
--- set("n", "<C-h>", "<C-w>h", { desc = "Switch focus to the split buffer LEFT of the current buffer." })
--- set("n", "<C-j>", "<C-w>j", { desc = "Switch focus to the split buffer BELOW the current buffer." })
--- set("n", "<C-k>", "<C-w>k", { desc = "Switch focus to the split buffer ABOVE the current buffer." })
--- set("n", "<C-l>", "<C-w>l", { desc = "Switch focus to the split buffer RIGHT of the current buffer." })
+-- set("n", "<C-v>=", "<C-W>5+", { noremap = true, silent = true, desc = "Increase current window height" })
+-- set("n", "<C-Minus>", "", { desc = "Decrease current window height" })
+-- set("n", "<C-[>", "<C-W>5<", { desc = "Increase current window width" })
+-- set("n", "<C-]>", "<C-W>5>", { desc = "Decrease current window width" })
+
+set("n", "<C-h>", "<C-w>h", { desc = "Switch focus to the split buffer LEFT of the current buffer." })
+set("n", "<C-j>", "<C-w>j", { desc = "Switch focus to the split buffer BELOW the current buffer." })
+set("n", "<C-k>", "<C-w>k", { desc = "Switch focus to the split buffer ABOVE the current buffer." })
+set("n", "<C-l>", "<C-w>l", { desc = "Switch focus to the split buffer RIGHT of the current buffer." })

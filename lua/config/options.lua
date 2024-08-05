@@ -22,7 +22,7 @@ o.clipboard = "unnamedplus" -- Sync clipboard between OS and Neovim.
 o.breakindent = true -- Enable break indent
 
 o.updatetime = 250 -- Decreasing update time
-o.timeout = true   -- ...
+o.timeout = true -- ...
 o.timeoutlen = 300 -- ...
 
 o.completeopt = "menuone,noselect" -- Set completeopt to have a better completion experience
@@ -33,21 +33,14 @@ o.wrap = false -- Disable line-wrapping
 
 o.scrolloff = 8 -- never show less than 8 lines above or below when vertically scrolling
 
-o.colorcolumn = "80"    -- Mark column 80 to show optimum line length
+o.colorcolumn = "80" -- Mark column 80 to show optimum line length
 
-o.tabstop = 2      -- Set my tabstop width
-o.softtabstop = 2  -- Set my soft tabstop width
-o.shiftwidth = 2   -- Set my shift width
+o.tabstop = 2 -- Set my tabstop width
+o.softtabstop = 2 -- Set my soft tabstop width
+o.shiftwidth = 2 -- Set my shift width
 o.expandtab = true -- Set expand tab to true
 
 o.smartindent = true
 
 o.splitbelow = true -- Split new horizontal windows below the current one
 o.splitright = true -- Split new vertical windows to the right of the current one
-
-
-
-
-
-
-
