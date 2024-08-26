@@ -26,14 +26,14 @@ return {
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("tokyonight").setup({
-				style = "storm",
+				style = "day",
 				styles = {
-					functions = {}, -- disable italic for functions
+					-- functions = {}, -- disable italic for functions
 				},
 			})
-			local tokyocolours = require("tokyonight.colors").setup({ style = "storm" })
+			local tokyocolours = require("tokyonight.colors").setup({ style = "day" })
 
-			vim.cmd.colorscheme("tokyonight")
+			vim.cmd.colorscheme("tokyonight-day")
 
 			-- Change our line number colours and make the current ln stand out
 			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = tokyocolours.comment })
