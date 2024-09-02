@@ -12,6 +12,7 @@ o.smartcase = true -- ... UNLESS /C or capital used in search
 w.number = true -- Make line numbers on by default
 w.relativenumber = true -- Enable relative line numbers by default
 w.signcolumn = "yes" -- Keep signcolumn on by default
+o.cursorline = true
 
 o.showmode = false -- Hide the mode in the command bar
 

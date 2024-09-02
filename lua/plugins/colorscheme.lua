@@ -30,15 +30,16 @@ return {
 				styles = {
 					-- functions = {}, -- disable italic for functions
 				},
+				lualine_bold = true,
 			})
 			local tokyocolours = require("tokyonight.colors").setup({ style = "day" })
 
 			vim.cmd.colorscheme("tokyonight-day")
 
 			-- Change our line number colours and make the current ln stand out
-			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = tokyocolours.comment })
-			vim.api.nvim_set_hl(0, "LineNr", { fg = tokyocolours.yellow })
-			vim.api.nvim_set_hl(0, "LineNrBelow", { fg = tokyocolours.comment })
+			-- vim.api.nvim_set_hl(0, "LineNrAbove", { fg = tokyocolours.comment })
+			-- vim.api.nvim_set_hl(0, "LineNr", { fg = tokyocolours.yellow })
+			-- vim.api.nvim_set_hl(0, "LineNrBelow", { fg = tokyocolours.comment })
 		end,
 	},
 }

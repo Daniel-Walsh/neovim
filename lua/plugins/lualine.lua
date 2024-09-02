@@ -6,7 +6,7 @@ return {
 		require("lualine").setup({
 			options = {
 				-- icons_enabled = true,
-				theme = "tokyonight-day",
+				theme = "tokyonight",
 				-- component_separators = "|",
 				-- section_separators = "",
 			},
