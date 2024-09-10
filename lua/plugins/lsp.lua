@@ -164,6 +164,39 @@ return {
 						},
 					},
 				},
+				ts_ls = {
+					on_attach = function(_, bufnr)
+						-- Enable inlay hints
+						-- vim.lsp.inlay_hint(bufnr, true)
+					end,
+					flags = {
+						debounce_text_changes = 150,
+					},
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
 				tailwindcss = {},
 				eslint = {},
 				-- prettier = {},
@@ -175,6 +208,12 @@ return {
 					},
 				},
 			}
+
+			vim.api.nvim_create_user_command("ToggleInlayHints", function()
+				local newState = not vim.lsp.inlay_hint.is_enabled()
+				vim.lsp.inlay_hint.enable(newState)
+				print("toggling inlay hints", newState)
+			end, {})
 
 			-- LSP servers and clients are able to communicate to each other what features they support.
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -220,7 +259,7 @@ return {
 
 			local lspconfig = require("lspconfig")
 
-			lspconfig.tsserver.setup({
+			lspconfig["ts_ls"].setup({
 				init_options = {
 					plugins = {
 						{

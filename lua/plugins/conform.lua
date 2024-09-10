@@ -13,6 +13,17 @@ return {
 			},
 		},
 		opts = {
+			formatters = {
+				["pint"] = {
+					command = "vendor/bin/pint",
+					args = {
+						-- "fix",
+						-- "--rules=@PSR12", -- Formatting preset. Other presets are available, see the php-cs-fixer docs.
+						"$FILENAME",
+					},
+					stdin = false,
+				},
+			},
 			notify_on_error = false,
 			format_on_save = function(bufnr)
 				-- Disable "format_on_save lsp_fallback" for languages that don't
@@ -33,7 +44,9 @@ return {
 				-- is found.
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				vue = { "prettierd", "prettier", stop_after_first = true },
-				blade = { "blade-formatter" },
+				-- blade = { "blade-formatter" },
+				blade = { "pint" },
+				php = { "pint" },
 			},
 		},
 	},
