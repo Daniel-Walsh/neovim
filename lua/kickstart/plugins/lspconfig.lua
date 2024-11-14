@@ -238,6 +238,9 @@ return {
           },
           settings = {
             typescript = {
+              tsserver = {
+                useSyntaxServer = false,
+              },
               inlayHints = {
                 includeInlayParameterNameHints = 'all',
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
