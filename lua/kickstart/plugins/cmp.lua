@@ -19,12 +19,12 @@ return {
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -34,6 +34,12 @@ return {
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+
+      -- TailwindCSS colourizer
+      'roobert/tailwindcss-colorizer-cmp.nvim',
+
+      --Adds devicons and formatting controls to nvim-cmp
+      'onsails/lspkind.nvim',
     },
     config = function()
       -- See `:help cmp`
@@ -41,7 +47,43 @@ return {
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
+      local border = {
+        { '╭', 'CmpBorder' },
+        { '─', 'CmpBorder' },
+        { '╮', 'CmpBorder' },
+        { '│', 'CmpBorder' },
+        { '╯', 'CmpBorder' },
+        { '─', 'CmpBorder' },
+        { '╰', 'CmpBorder' },
+        { '│', 'CmpBorder' },
+      }
+
       cmp.setup {
+        window = {
+          documentation = {
+            border = border,
+          },
+          completion = {
+            border = border,
+          },
+        },
+        formatting = {
+          expandable_indicator = true,
+          fields = { 'abbr', 'kind', 'menu' },
+          format = function(entry, item)
+            require('lspkind').cmp_format {
+              mode = 'symbol_text',
+              -- preset = 'codicons', -- enable this for vs code icons
+              menu = {
+                buffer = '[BUF]',
+                nvim_lsp = '[LSP]',
+                luasnip = '[SNIP]',
+                path = '[PATH]',
+              },
+            }(entry, item)
+            return require('tailwindcss-colorizer-cmp').formatter(entry, item)
+          end,
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)

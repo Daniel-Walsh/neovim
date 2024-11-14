@@ -36,6 +36,9 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
+-- Mark column 80 to show optimum line length
+vim.opt.colorcolumn = '80'
+
 -- Decrease update time
 vim.opt.updatetime = 250
 
