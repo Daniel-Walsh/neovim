@@ -51,9 +51,16 @@ vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessioniser<CR>', { de
 -- Yank the entire buffer
 vim.keymap.set('n', '<leader>ya', ':%y+<CR>', { desc = '[Y]ank [A]ll', silent = true, noremap = true })
 
+vim.keymap.set('n', '-', '<cmd>Oil<CR>', { desc = 'Open the current directory in Oil' })
+
 -- Because I always mess these up
 vim.api.nvim_create_user_command('W', 'w', {})
 vim.api.nvim_create_user_command('Wq', 'wq', {})
 vim.api.nvim_create_user_command('Q', 'q', {})
 vim.api.nvim_create_user_command('Qa', 'qa', {})
+
+-- Navigating quickfix list
+vim.keymap.set('n', '[q', ':cprev<CR>', { desc = 'Jump to previous [q]uickfix item' })
+vim.keymap.set('n', ']q', ':cnext<CR>', { desc = 'Jump to previous [q]uickfix item' })
+
 -- vim: ts=2 sts=2 sw=2 et

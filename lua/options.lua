@@ -65,4 +65,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Neovim command-line completion
+-- vim.opt.wildmode = 'longest:full,full'
+-- vim.opt.wildmenu = true
+-- vim.opt.wildoptions = 'pum'
+
 -- vim: ts=2 sts=2 sw=2 et
