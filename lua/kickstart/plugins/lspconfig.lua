@@ -180,15 +180,15 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       --
       local servers = {
-        omnisharp = {
-          cmd = {
-            'mono',
-            '--assembly-loader=strict',
-            -- path_to_download .. '/omnisharp/OmniSharp.exe',
-            vim.fn.stdpath 'data' .. '/mason/packages/omnisharp-mono/omnisharp/OmniSharp.exe',
-          },
-          use_mono = true,
-        },
+        -- omnisharp = {
+        --   cmd = {
+        --     'mono',
+        --     '--assembly-loader=strict',
+        --     -- path_to_download .. '/omnisharp/OmniSharp.exe',
+        --     vim.fn.stdpath 'data' .. '/mason/packages/omnisharp-mono/omnisharp/OmniSharp.exe',
+        --   },
+        --   use_mono = true,
+        -- },
         volar = {
           init_options = {
             vue = {

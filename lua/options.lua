@@ -34,7 +34,9 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+vim.opt.numberwidth = 3
+vim.opt.signcolumn = 'yes:1'
+vim.opt.statuscolumn = '%l%s'
 
 -- Mark column 80 to show optimum line length
 vim.opt.colorcolumn = '80'
@@ -65,9 +67,17 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- Neovim command-line completion
--- vim.opt.wildmode = 'longest:full,full'
--- vim.opt.wildmenu = true
--- vim.opt.wildoptions = 'pum'
+-- Set the default border for all things as 'rounded' (since 0.11).
+vim.opt.winborder = 'rounded'
+
+-- Set diagnostics to use virtual lines, and only for the current line (since 0.11).
+vim.diagnostic.config {
+  virtual_lines = {
+    current_line = true,
+  },
+}
+
+-- When searching, don't loop over the file. Stop when I reach the top or bottom
+vim.opt_global.wrapscan = false
 
 -- vim: ts=2 sts=2 sw=2 et
